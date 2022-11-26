@@ -1,0 +1,22 @@
+- Cette bibliothèque est thread-safe
+- Cette bibliothèque garantit un transfert de flux d'octets en FIFO lossless
+
+- L'utilisateur utilise des Brokers pour établir les connexions. Chaque entité qui souhaite communiquer crée son Broker en instanciant la classe.
+- Chaque Broker est identifié par un nom fourni à l'instanciation
+- Une connexion (appelée "Channel") relie deux entités, et est établie par une action des deux côtés
+  - L'une des entités utilise la méthode "accept" de son Broker en fournissant un port qui sera utilisé pour la communication. Le Broker se prépare donc à accepter une connexion entrante
+  - L'autre entité utilise la méthode "connect" de son Broker en fournissant le nom de l'autre Broker, et le port sur lequel se connecter. Le Broker contacte donc l'autre Broker et cherche à établir la connexion
+- Les méthodes connect et accept sont toutes deux bloquantes jusqu'à-ce que la connexion soit établie, et elles peuvent être appelées dans n'importe quel ordre
+- Les méthodes connect et accept retournent toutes deux un Channel, qui sera utilisé pour communiquer
+
+- Le Channel est bidirectionnel, et se comporte de manière identique des deux côtés de la connexion
+- La méthode "write" du Channel permet d'envoyer un flux d'octets à l'autre entité. Elle attend un flux d'octets à envoyer, un offset dans ce flux, et un nombre d'octets à envoyer. Il peut arriver qu'on n'arrive pas à envoyer tous les octets, c'est pourquoi cette méthode renvoie le nombre d'octets qui ont effectivement été envoyés
+- La méthode "read" du Channel permet de lire un flux d'octets venant de l'autre côté. Elle attend un tableau qui va recevoir les octets lus, un offset dans ce tableau, et un nombre maximum d'octets à lire. Elle renvoie le nombre d'octets effectivement lus
+- La méthode read est bloquante.
+- La méthode write n'est bloquante que si elle ne peut pas écrire immédiatement.
+- La méthode "isdisconnected" du Channel indique le statut de la connexion.
+- Une entité peut fermer la connexion via la méthode "disconnect"
+- La fermeture d'une connexion est unilatérale : inutile de la fermer des deux côtés.
+- Si une entité ferme la connexion alors que l'autre est en train de lire/écrire, la connexion restera ouverte jusqu'à la fin de cette opération, puis elle sera fermée. La méthode disconnect est alors bloquante
+- Il n'est pas possible de lire/écrire sur une connexion fermée : les méthodes renverront une valeur spéciale (-1) indiquant cela. La méthode read n'est alors plus bloquante
+- En cas de panne d'une entité, la connexion sera considérée comme fermée, et les méthodes renverront une valeur spéciale (-2) pour différencier cela du cas de la fermeture normale. Pour réétablire la connexion après le retour de l'entité tombée en panne, il faut repasser par les méthodes accept/connect
