@@ -33,9 +33,9 @@ public abstract class TesterTask extends Task {
         }
 
         if (this.equals(read, this.toRead)) {
-            System.out.println(this.m_broker.getName() + " : OK");
+            System.out.println(this.m_broker.getName() + " send/write test : OK");
         } else {
-            System.out.println(this.m_broker.getName() + " : KO");
+            System.out.println(this.m_broker.getName() + " send/write test : KO");
         }
     }
 

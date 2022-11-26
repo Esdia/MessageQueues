@@ -11,5 +11,8 @@ public class TaskA extends TesterTask {
     public void run() {
         this.channel = this.m_broker.accept(1000);
         super.run();
+
+        this.channel.disconnect();
+        System.out.println(this.m_broker.getName() + " disconnected");
     }
 }

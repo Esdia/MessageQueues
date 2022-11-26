@@ -17,7 +17,8 @@ public class Broker {
 
 
     void releasePort(int port) {
-        this.occupiedPorts.remove(port);
+        // remove(port) would use port as an index to remove, not a value, hence the cast to Integer
+        this.occupiedPorts.remove(Integer.valueOf(port));
     }
 
     public Channel accept(int port) {
