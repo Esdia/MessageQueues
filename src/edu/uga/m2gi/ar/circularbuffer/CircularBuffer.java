@@ -1,4 +1,4 @@
-package edu.uga.m2gi.ar.channels;
+package edu.uga.m2gi.ar.circularbuffer;
 
 /*
  *  This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,11 @@ package edu.uga.m2gi.ar.channels;
  *      Author: Pr. Olivier Gruber <olivier dot gruber at acm dot org>
  */
 
-class CircularBuffer {
+public class CircularBuffer {
 
 	int m_capacity;
 	int m_start, m_end;
-	byte m_elements[];
+	byte[] m_elements;
 
 	public CircularBuffer(int capacity) {
 		m_capacity = capacity;
@@ -43,7 +43,6 @@ class CircularBuffer {
 	 * Pushes a byte in the buffer, if the buffer is not full,
 	 * throws an IllegalStateException otherwise.
 	 *
-	 * @return true if the push succeeded.
 	 */
 	public void push(byte elem) {
 		int next = (m_end + 1) % m_capacity;
@@ -55,7 +54,7 @@ class CircularBuffer {
 
 	/**
 	 * @return the next available byte, if the buffer is not empty,
-	 *         throws an IllegalStateException otherwise. 
+	 *         throws an IllegalStateException otherwise.
 	 */
 	public byte pull() {
 		if (m_start != m_end) {

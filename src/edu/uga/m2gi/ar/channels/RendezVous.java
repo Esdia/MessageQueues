@@ -1,5 +1,7 @@
 package edu.uga.m2gi.ar.channels;
 
+import edu.uga.m2gi.ar.circularbuffer.CircularBuffer;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,10 @@ class RendezVous {
         RendezVous rdv = new RendezVous();
         objects.put(key, rdv);
         return rdv;
+    }
+
+    static boolean instanceExists(String key) {
+        return objects.containsKey(key);
     }
 
     static void deleteInstance(String key) {
@@ -45,5 +51,34 @@ class RendezVous {
 
     public CircularBuffer getConnectOut() {
         return connectOut;
+    }
+
+    public static RendezVous getRdv(String key) {
+        RendezVous rdv;
+        boolean exists;
+        synchronized (objects) {
+            exists = RendezVous.instanceExists(key);
+            if (!exists) {
+                rdv = RendezVous.createInstance(key);
+            } else {
+                rdv = RendezVous.getInstance(key);
+            }
+        }
+
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
+        synchronized (rdv) {
+            try {
+                if (exists) {
+                    rdv.notify();
+                } else {
+                    rdv.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
+
+        return rdv;
     }
 }
