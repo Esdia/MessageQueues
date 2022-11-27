@@ -57,10 +57,10 @@ les octets lus, un décalage dans ce tableau (qui correspond à l'indice dans le
 d'octets demandés, cette méthode renvoie donc le nombre d'octets effectivement lus. Cette méthode est bloquante tant
 qu'il n'y a rien à lire (c'est-à-dire jusqu'à-ce que l'autre côté écrive quelque chose).
 
-Il est possible de fermer la connexion via la méthode `disconnect` du channel. Cette fermeture est unilatérale : inutile
-de fermer des deux cotés. Si une entité ferme la connexion alors que l'autre est en train de lire ou écrire, la
-connexion restera ouverte jusqu'à la fin de cette opération, puis elle se fermera. La méthode `disconnect` est alors
-bloquante.
+Il est possible de fermer la connexion via la méthode `disconnect` du channel. Cette fermeture est unilatérale, mais
+asymétrique.
+Pour l'entité qui ferme la connexion, la déconnexion est instantanée, mais si l'autre entité était en train de lire ou
+écrire, elle ne considèrera la connexion comme fermée qu'une fois l'opération terminée.
 
 La méthode `isdisconnected` indique le statut de la connexion.
 
