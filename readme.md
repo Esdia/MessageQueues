@@ -18,7 +18,7 @@ L'implémentation se trouve dans le dossier `src`.
     - [x] Implementation
 - [ ] Message Queues
     - [x] Specs
-    - [ ] Design
+    - [x] Design
     - [ ] Implementation 
 - [ ] Event Oriented Message Queues
   - [ ] Specs

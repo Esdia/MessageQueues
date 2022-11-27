@@ -30,3 +30,21 @@ intégralité.
 
 Les méthodes `close` et `closed` sont les équivalents respectifs de `disconnect` et `isdisconnected`
 des [channels](channels.md#les-channels). Elles fonctionnent de manière parfaitement identique.
+
+## Design
+
+### QueueBroker
+
+- Création d'un Broker de channel dans le constructeur
+- Pour chaque méthode : appel des méthodes correspondantes dans le Broker de channel.
+- Création de la MessageQueue en fonction du Channel créé
+
+### MessageQueue
+
+- Le constructeur prend un `Channel`.
+- `close` et `closed` : Appel de la méthode équivalente dans le `Channel`.
+- `Write` : Ajout d'un entête de 4 octets indiquant la taille du message puis `channel.write` en boucle en changeant
+  l'offset et la taille au fur et à mesure jusqu'à-ce que tout soit envoyé.
+- `Read` : Lecture de 4 octets pour lire la taille, puis lecture en boucle en changeant l'offset et la taille au fur et
+  à mesure jusqu'à-ce que tout soit lu.
+- `synchronize` sur toutes les méthodes.
