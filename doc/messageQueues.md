@@ -28,6 +28,8 @@ La méthode `receive` permet de recevoir un message de manière atomique. Elle n
 message reçu sous forme d'ensemble d'octets. Cette méthode est bloquante jusqu'à-ce qu'un message ait été reçu dans son
 intégralité.
 
+Si on essaie d'envoyer ou de recevoir sur une connexion fermée, une exception `QueueClosedException` est levée.
+
 Les méthodes `close` et `closed` sont les équivalents respectifs de `disconnect` et `isdisconnected`
 des [channels](channels.md#les-channels). Elles fonctionnent de manière parfaitement identique.
 

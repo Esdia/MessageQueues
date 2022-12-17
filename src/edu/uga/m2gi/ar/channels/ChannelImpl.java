@@ -34,7 +34,7 @@ class ChannelImpl implements Channel {
         synchronized (this.in) {
             try {
                 while (this.in.empty()) {
-                    this.wait();
+                    this.in.wait();
                 }
 
                 boolean wasFull = this.in.full();
@@ -72,7 +72,7 @@ class ChannelImpl implements Channel {
         synchronized (this.out) {
             try {
                 while (this.out.full()) {
-                    this.wait();
+                    this.out.wait();
                 }
 
                 boolean wasEmpty = this.out.empty();

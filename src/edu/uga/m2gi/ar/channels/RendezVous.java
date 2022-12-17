@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class RendezVous {
+    private static final int BUFFER_CAPACITY = 64;
     private static final Map<String, RendezVous> objects = new HashMap<>();
     private final CircularBuffer acceptIn;
     private final CircularBuffer acceptOut;
@@ -31,8 +32,8 @@ class RendezVous {
     }
 
     RendezVous() {
-        this.acceptIn = new CircularBuffer(1000);
-        this.acceptOut = new CircularBuffer(1000);
+        this.acceptIn = new CircularBuffer(BUFFER_CAPACITY);
+        this.acceptOut = new CircularBuffer(BUFFER_CAPACITY);
         this.connectIn = this.acceptOut;
         this.connectOut = this.acceptIn;
     }
