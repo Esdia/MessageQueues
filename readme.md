@@ -20,10 +20,11 @@ L'implémentation se trouve dans le dossier `src`.
     - [x] Specs
     - [x] Design
     - [x] Implementation 
-- [ ] Event Oriented Message Queues
-  - [ ] Specs
-  - [ ] Design
-  - [ ] Implementation 
+- [ ] [PARTIEL] Event Oriented Message Queues
+  - [x] Specs
+  - [x] Design
+  - [ ] [PARTIEL] Implementation
+    - Implémentation avancée mais non terminée et non testée
 - [ ] Event Oriented Channels
   - [ ] Specs
   - [ ] Design
